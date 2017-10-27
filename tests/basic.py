@@ -35,14 +35,51 @@ class BasicTestSuite(unittest.TestCase):
         dn.open(BasicTestSuite.PATH_MGA.encode("utf-8"), b"")
         cls.dn = dn
 
-    @classmethod
-    def tearDownClass(cls):
+        cls.g = MgaRdfConverter.convert(dn.root, udm_xml=BasicTestSuite.PATH_UDM_XML)
+
         cls.dn.close_no_update()
         cls.meta_dn.close_no_update()
 
-    def test_absolute_truth_and_meaning(self):
-        g = MgaRdfConverter.convert(self.dn.root, udm_xml=BasicTestSuite.PATH_UDM_XML)
-        print(g.serialize(format='turtle'))
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
+    def test_root_primitive(self):
+        sparql_root_primitive = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?prim_name
+            WHERE {
+                ?rf a sf:RootFolder .
+                ?rf sf:name ?rf_name .
+                ?prim gme:parent ?rf .
+                ?prim a sf:Primitive .
+                ?prim gme:name ?prim_name
+            }
+        """
+
+        res = self.g.query(sparql_root_primitive)
+        self.assertEqual(1, len(res))
+        for row in res:
+            self.assertEqual('Primitive', str(row[0]))
+
+    def test_find_all_primitives(self):
+        sparql_all_primitives = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?prim_name
+            WHERE {
+                ?prim a sf:Primitive .
+                ?prim sf:name ?prim_name
+            }
+        """
+
+        res = self.g.query(sparql_all_primitives)
+        self.assertEqual(8, len(res))
+        for row in res:
+            self.assertIn(str(row[0]), ['Primitive', 'PrimitiveParts'])
 
 
 if __name__ == '__main__':
