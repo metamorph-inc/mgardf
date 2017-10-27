@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{61B976C2-854B-4073-987D-B5BEFDF4A2EC}" cdate="Tue Oct 24 21:30:12 2017" mdate="Tue Oct 24 21:30:12 2017" version="" metaguid="{A47F17D5-E360-4395-8351-AE3A1A843468}" metaversion="" metaname="SF">
+<project guid="{836CDEE1-B3AD-4F9A-B0AF-0720CD4B35A7}" cdate="Tue Oct 24 21:30:12 2017" mdate="Tue Oct 24 21:30:12 2017" version="" metaguid="{42055612-E93A-4BA7-8FA1-DF67D52699F4}" metaversion="" metaname="SF">
 	<name>SF_RootFolder</name>
 	<comment></comment>
 	<author></author>
-	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x3" kind="RootFolder" guid="{38103781-c14e-44ab-af45-86b68f87f74b}">
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x5" kind="RootFolder" guid="{38103781-c14e-44ab-af45-86b68f87f74b}">
 		<name>SF_RootFolder</name>
 		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x4" kind="Folder" guid="{935c9485-7c1a-4708-b854-2d8fdadf6dc6}">
 			<name>FolderA</name>
@@ -1203,6 +1203,294 @@
 					<value>1</value>
 				</attribute>
 			</atom>
+		</model>
+		<model id="id-0065-00000015" kind="Compound" guid="{ce2c695f-d067-42bd-9df8-cfa366a041ab}" derivedfrom="id-0065-00000001" isinstance="yes" isprimary="yes" relid="0x4" childrelidcntr="0x0">
+			<name>Compound_Instance</name>
+			<model id="id-0065-00000016" kind="Compound" role="CompoundParts" guid="{2eec5be8-1d96-40da-8e77-a9e589636895}" derivedfrom="id-0065-00000003" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+				<name>CompoundPartsA</name>
+				<model id="id-0065-00000017" kind="Compound" role="CompoundParts" guid="{7dac8fab-4d75-478d-a363-73a26ebc9078}" derivedfrom="id-0065-00000005" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+					<name>CompoundPartsB</name>
+					<atom id="id-0066-00000054" kind="Param" role="Parameters" guid="{22b3c0ef-7d60-48fe-9b4a-ef25f5801335}" derivedfrom="id-0066-00000011" isinstance="yes" isprimary="no">
+						<name>Parameters</name>
+						<attribute kind="DataType" status="meta">
+							<value>Integer</value>
+						</attribute>
+						<attribute kind="Global" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="InitValue" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Size" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000055" kind="OutputSignal" role="OutputSignals" guid="{7e3b1232-2e18-4f09-9438-aef349e41ca5}" derivedfrom="id-0066-00000010" isinstance="yes" isprimary="no">
+						<name>OutputSignals</name>
+					</atom>
+					<atom id="id-0066-00000056" kind="InputSignal" role="InputSignals" guid="{6e3ce0ed-9022-4ce0-95ea-91e8b4c01bf8}" derivedfrom="id-0066-00000014" isinstance="yes" isprimary="no">
+						<name>InputSignals</name>
+					</atom>
+					<atom id="id-0066-00000057" kind="InputParam" role="InputParameters" guid="{c6048bfe-9762-4ade-b5d3-1ee17f075a18}" derivedfrom="id-0066-00000012" isinstance="yes" isprimary="no">
+						<name>InputParameters</name>
+						<attribute kind="DataType" status="meta">
+							<value>Integer</value>
+						</attribute>
+						<attribute kind="Size" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000058" kind="OutputParam" role="OutputParameters" guid="{bd1c9752-d5ca-4872-9739-2de97dd1ad16}" derivedfrom="id-0066-00000013" isinstance="yes" isprimary="no">
+						<name>OutputParameters</name>
+						<attribute kind="DataType" status="meta">
+							<value>Integer</value>
+						</attribute>
+						<attribute kind="Size" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-00000051" kind="InputParam" role="InputParameters" guid="{07a1ae5d-0e03-4e72-a0e9-def4080afd8f}" derivedfrom="id-0066-0000000b" isinstance="yes" isprimary="no">
+					<name>InputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000052" kind="InputSignal" role="InputSignals" guid="{87d0ed6e-02c9-4229-bb8a-8be1b36e5435}" derivedfrom="id-0066-0000000c" isinstance="yes" isprimary="no">
+					<name>InputSignals</name>
+				</atom>
+				<atom id="id-0066-00000053" kind="OutputSignal" role="OutputSignals" guid="{d91dd3ed-ce87-4508-827a-bb649d2aaa6d}" derivedfrom="id-0066-0000000e" isinstance="yes" isprimary="no">
+					<name>OutputSignals</name>
+				</atom>
+				<atom id="id-0066-00000059" kind="OutputParam" role="OutputParameters" guid="{ef176798-ed64-4803-a698-4be51a9824fe}" derivedfrom="id-0066-0000000d" isinstance="yes" isprimary="no">
+					<name>OutputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000005a" kind="Param" role="Parameters" guid="{a8debf64-67d1-45de-8aa3-a46d2754006d}" derivedfrom="id-0066-0000000f" isinstance="yes" isprimary="no">
+					<name>Parameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Global" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="InitValue" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000018" kind="Primitive" role="PrimitiveParts" guid="{b359508a-54d7-42bb-95ca-dbcca0e42e20}" derivedfrom="id-0065-00000004" isinstance="yes" isprimary="no" childrelidcntr="0x0">
+				<name>PrimitiveParts</name>
+				<attribute kind="Firing" status="meta">
+					<value>IFALL</value>
+				</attribute>
+				<attribute kind="Priority" status="meta">
+					<value>10</value>
+				</attribute>
+				<attribute kind="Script" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000005b" kind="InputSignal" role="InputSignals" guid="{ec62c84f-8915-4857-9e5e-b2b643b2229f}" derivedfrom="id-0066-00000007" isinstance="yes" isprimary="no">
+					<name>InputSignals</name>
+				</atom>
+				<atom id="id-0066-0000005c" kind="OutputSignal" role="OutputSignals" guid="{8c66a9cf-296d-43fe-b06a-888338b0b862}" derivedfrom="id-0066-00000009" isinstance="yes" isprimary="no">
+					<name>OutputSignals</name>
+				</atom>
+				<atom id="id-0066-0000005d" kind="InputParam" role="InputParameters" guid="{511b76f9-2a71-492e-bb2d-4996990c2aaf}" derivedfrom="id-0066-00000006" isinstance="yes" isprimary="no">
+					<name>InputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000005e" kind="Param" role="Parameters" guid="{24d2a8fb-b435-4ce5-84c2-6f66320e8f2b}" derivedfrom="id-0066-0000000a" isinstance="yes" isprimary="no">
+					<name>Parameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Global" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="InitValue" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000005f" kind="OutputParam" role="OutputParameters" guid="{ca8d87c9-e123-4a80-b4a9-f39c67c99069}" derivedfrom="id-0066-00000008" isinstance="yes" isprimary="no">
+					<name>OutputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+			</model>
+		</model>
+		<model id="id-0065-00000019" kind="Compound" guid="{666ccd34-0226-4d9b-968d-a5186e385da7}" derivedfrom="id-0065-00000001" isinstance="no" isprimary="yes" relid="0x5" childrelidcntr="0x1">
+			<name>Compound_Subtype</name>
+			<model id="id-0065-0000001a" kind="Compound" role="CompoundParts" guid="{fe9bbecc-07c5-44fe-811d-b836538b2501}" derivedfrom="id-0065-00000003" isinstance="no" isprimary="no" childrelidcntr="0x0">
+				<name>CompoundPartsA</name>
+				<model id="id-0065-0000001b" kind="Compound" role="CompoundParts" guid="{ef25aa44-c776-414b-bccd-ab2a5efc3081}" derivedfrom="id-0065-00000005" isinstance="no" isprimary="no" childrelidcntr="0x0">
+					<name>CompoundPartsB</name>
+					<atom id="id-0066-00000063" kind="Param" role="Parameters" guid="{6a15d21a-7abf-416b-a786-abaf0aa7ca20}" derivedfrom="id-0066-00000011" isinstance="no" isprimary="no">
+						<name>Parameters</name>
+						<attribute kind="DataType" status="meta">
+							<value>Integer</value>
+						</attribute>
+						<attribute kind="Global" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="InitValue" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="Size" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000064" kind="OutputSignal" role="OutputSignals" guid="{7df1ac12-0c5a-4801-9014-521a76873467}" derivedfrom="id-0066-00000010" isinstance="no" isprimary="no">
+						<name>OutputSignals</name>
+					</atom>
+					<atom id="id-0066-00000065" kind="InputSignal" role="InputSignals" guid="{89f66a7f-420c-41f6-bf25-98d5dfb9e509}" derivedfrom="id-0066-00000014" isinstance="no" isprimary="no">
+						<name>InputSignals</name>
+					</atom>
+					<atom id="id-0066-00000066" kind="InputParam" role="InputParameters" guid="{c0b425fc-279f-4a9d-9331-b87e084f0682}" derivedfrom="id-0066-00000012" isinstance="no" isprimary="no">
+						<name>InputParameters</name>
+						<attribute kind="DataType" status="meta">
+							<value>Integer</value>
+						</attribute>
+						<attribute kind="Size" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000067" kind="OutputParam" role="OutputParameters" guid="{a9b327f2-e317-493d-9152-89511985d36f}" derivedfrom="id-0066-00000013" isinstance="no" isprimary="no">
+						<name>OutputParameters</name>
+						<attribute kind="DataType" status="meta">
+							<value>Integer</value>
+						</attribute>
+						<attribute kind="Size" status="meta">
+							<value>1</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-00000060" kind="InputParam" role="InputParameters" guid="{48183bb6-f238-4ac5-8aaf-93271c5a41c7}" derivedfrom="id-0066-0000000b" isinstance="no" isprimary="no">
+					<name>InputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000061" kind="InputSignal" role="InputSignals" guid="{4638c3c4-87ce-45d9-81bd-95a34b101679}" derivedfrom="id-0066-0000000c" isinstance="no" isprimary="no">
+					<name>InputSignals</name>
+				</atom>
+				<atom id="id-0066-00000062" kind="OutputSignal" role="OutputSignals" guid="{850bae62-e7c9-408e-b09c-c79e2d0edcac}" derivedfrom="id-0066-0000000e" isinstance="no" isprimary="no">
+					<name>OutputSignals</name>
+				</atom>
+				<atom id="id-0066-00000068" kind="OutputParam" role="OutputParameters" guid="{976e18c4-c1d3-4784-a328-60b8e273f034}" derivedfrom="id-0066-0000000d" isinstance="no" isprimary="no">
+					<name>OutputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000069" kind="Param" role="Parameters" guid="{d514bd84-345a-47f3-875d-6f6b855a6337}" derivedfrom="id-0066-0000000f" isinstance="no" isprimary="no">
+					<name>Parameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Global" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="InitValue" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000001c" kind="Primitive" role="PrimitiveParts" guid="{5e961f16-ce00-42f7-aab0-8e75515c7187}" derivedfrom="id-0065-00000004" isinstance="no" isprimary="no" childrelidcntr="0x0">
+				<name>PrimitiveParts</name>
+				<attribute kind="Firing" status="meta">
+					<value>IFALL</value>
+				</attribute>
+				<attribute kind="Priority" status="meta">
+					<value>10</value>
+				</attribute>
+				<attribute kind="Script" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000006a" kind="InputSignal" role="InputSignals" guid="{2fb20477-b06a-4ba2-82f8-d034c0adbd8d}" derivedfrom="id-0066-00000007" isinstance="no" isprimary="no">
+					<name>InputSignals</name>
+				</atom>
+				<atom id="id-0066-0000006b" kind="OutputSignal" role="OutputSignals" guid="{2de4a1b0-e33f-4c2e-95b3-5ca7becba40d}" derivedfrom="id-0066-00000009" isinstance="no" isprimary="no">
+					<name>OutputSignals</name>
+				</atom>
+				<atom id="id-0066-0000006c" kind="InputParam" role="InputParameters" guid="{424c9de0-edd8-425c-98f0-51e751fb57f7}" derivedfrom="id-0066-00000006" isinstance="no" isprimary="no">
+					<name>InputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006d" kind="Param" role="Parameters" guid="{610f9af1-1d49-472d-bd36-efd338b9068b}" derivedfrom="id-0066-0000000a" isinstance="no" isprimary="no">
+					<name>Parameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Global" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="InitValue" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000006e" kind="OutputParam" role="OutputParameters" guid="{b46ae05e-bd41-44b3-b3ac-91647b4a3a4f}" derivedfrom="id-0066-00000008" isinstance="no" isprimary="no">
+					<name>OutputParameters</name>
+					<attribute kind="DataType" status="meta">
+						<value>Integer</value>
+					</attribute>
+					<attribute kind="Size" status="meta">
+						<value>1</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000001d" kind="Primitive" role="PrimitiveParts" guid="{6fc7b811-a891-428b-8f88-6cc7ad714167}" relid="0x1" childrelidcntr="0x0">
+				<name>Primitive_NotSubtype</name>
+				<attribute kind="Firing" status="meta">
+					<value>IFALL</value>
+				</attribute>
+				<attribute kind="Priority" status="meta">
+					<value>10</value>
+				</attribute>
+				<attribute kind="Script" status="meta">
+					<value></value>
+				</attribute>
+			</model>
 		</model>
 	</folder>
 </project>

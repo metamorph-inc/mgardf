@@ -79,9 +79,9 @@ class BasicTestSuite(unittest.TestCase):
         """
 
         res = self.g.query(sparql_all_primitives)
-        self.assertEqual(10, len(res))
+        self.assertEqual(11, len(res))
         for row in res:
-            self.assertIn(str(row[0]), ['Primitive', 'PrimitiveParts'])
+            self.assertIn(str(row[0]), ['Primitive', 'PrimitiveParts', 'Primitive_NotSubtype'])
 
     def test_instances(self):
         sparql_compound_instance = """
@@ -106,13 +106,14 @@ class BasicTestSuite(unittest.TestCase):
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
             
-            SELECT ?comp_descendant ?cd_name
+            SELECT ?comp_descendant
             WHERE {
                 ?comp a sf:Compound .
                 ?comp sf:name "Compound_Instance" .
                 
                 ?comp_descendant gme:parent+ ?comp .
-                ?comp_descendant a gme:instance
+                ?comp_descendant a gme:instance .
+                ?comp_descendant gme:archetype ?comp_desc_archetype
             }
         """
 
@@ -142,18 +143,34 @@ class BasicTestSuite(unittest.TestCase):
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
             
-            SELECT ?comp_descendant ?cd_name
+            SELECT ?comp_descendant
             WHERE {
                 ?comp a sf:Compound .
                 ?comp sf:name "Compound_Subtype" .
                 
                 ?comp_descendant gme:parent+ ?comp .
-                ?comp_descendant a gme:subtype
+                ?comp_descendant a gme:subtype .
+                ?comp_descendant gme:archetype ?comp_desc_archetype
             }
         """
 
         res = self.g.query(sparql_all_descendants)
         self.assertEqual(18, len(res))
+
+        # Test that Primitive_NotSubtype is not also a subtype
+        sparql_new_descendant = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?comp_descendant
+            WHERE {
+                ?comp_descendant gme:name "Primitive_NotSubtype" .
+                ?comp_descendant a gme:subtype
+            }
+        """
+
+        res = self.g.query(sparql_new_descendant)
+        self.assertEqual(0, len(res))
 
 
 if __name__ == '__main__':
