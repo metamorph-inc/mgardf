@@ -101,6 +101,60 @@ class BasicTestSuite(unittest.TestCase):
         res = self.g.query(sparql_compound_instance)
         self.assertEqual(1, len(res))
 
+        # Test child objects are also instances
+        sparql_all_descendants = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?comp_descendant ?cd_name
+            WHERE {
+                ?comp a sf:Compound .
+                ?comp sf:name "Compound_Instance" .
+                
+                ?comp_descendant gme:parent+ ?comp .
+                ?comp_descendant a gme:instance
+            }
+        """
+
+        res = self.g.query(sparql_all_descendants)
+        self.assertEqual(18, len(res))
+
+    def test_subtypes(self):
+        sparql_compound_instance = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?comp
+            WHERE {
+                ?comp a sf:Compound .
+                ?comp sf:name "Compound_Subtype" .
+                ?comp a gme:subtype .
+                ?comp gme:archetype ?comp_arch .
+                ?comp_arch sf:name "Compound"
+            }
+        """
+
+        res = self.g.query(sparql_compound_instance)
+        self.assertEqual(1, len(res))
+
+        # Test child objects are also instances
+        sparql_all_descendants = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?comp_descendant ?cd_name
+            WHERE {
+                ?comp a sf:Compound .
+                ?comp sf:name "Compound_Subtype" .
+                
+                ?comp_descendant gme:parent+ ?comp .
+                ?comp_descendant a gme:subtype
+            }
+        """
+
+        res = self.g.query(sparql_all_descendants)
+        self.assertEqual(18, len(res))
+
 
 if __name__ == '__main__':
     unittest.main()
