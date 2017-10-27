@@ -1,5 +1,13 @@
 from rdflib import Graph, Namespace, RDF, RDFS, Literal
 import xml.etree.ElementTree as ET
+import _winreg as winreg
+import os
+import sys
+
+with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
+    meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
+sys.path.append(os.path.join(meta_path, 'bin'))
+import udm
 
 
 class MgaRdfConverter(object):
@@ -94,28 +102,55 @@ class MgaRdfConverter(object):
         v.visit(fco)
         return v.g
 
-    def visit(self, fco):
-        uri_fco = self.NS_MODEL['id_' + str(fco.id)]
-        uri_type = self.NS_METAMODEL[fco.type.name]
-        self.g.add((uri_fco, RDF.type, uri_type))
-        self.g.add((uri_fco, self.NS_GME.name, Literal(fco.name)))
-        self.g.add((uri_fco, self.NS_GME.parent, self.NS_MODEL['id_' + str(fco.parent.id)]))
+    def visit(self, obj):
+        uri_obj = self.NS_MODEL['id_' + str(obj.id)]
 
-        for child in fco.children():
+        has_type = False
+        type_obj = None
+        try:
+            type_obj = obj.type.name
+            has_type = True
+        except RuntimeError:
+            print ('Could not identify type for object with id {}'.format(obj.id))
+
+        if has_type:
+            uri_type = self.NS_METAMODEL[type_obj]
+            self.g.add((uri_obj, RDF.type, uri_type))
+
+            if type_obj in self._assoc_class_names:
+                src_attr = getattr(obj, 'src' + obj.type.name)
+                dst_attr = getattr(obj, 'dst' + obj.type.name)
+
+                src_uri = self.NS_MODEL['id_' + str(src_attr.id)]
+                dst_uri = self.NS_MODEL['id_' + str(dst_attr.id)]
+
+                self.g.add((uri_obj, self.NS_METAMODEL['src' + obj.type.name], src_uri))
+                self.g.add((uri_obj, self.NS_METAMODEL['dst' + obj.type.name], dst_uri))
+
+            # Attributes
+            if type_obj in self._class_attributes:
+                for attr in self._class_attributes[obj.type.name]:
+                    attr_attr = getattr(obj, attr)
+                    self.g.add((uri_obj, self.NS_METAMODEL[attr], Literal(attr_attr)))
+
+        else:  # has_type == False
+            # This is a folder
+            uri_type = self.NS_GME['Folder']
+            self.g.add((uri_obj, RDF.type, uri_type))
+
+            if obj.parent == udm.null:
+                # Additionally, this is the root folder
+                uri_type = self.NS_GME['RootFolder']
+                self.g.add((uri_obj, RDF.type, uri_type))
+
+        try:
+            fco_name = obj.name
+            self.g.add((uri_obj, self.NS_GME.name, Literal(fco_name)))
+        except Exception:
+            print ('Could not get name for object with id {}'.format(obj.id))
+
+        if not obj.parent == udm.null:
+            self.g.add((uri_obj, self.NS_GME.parent, self.NS_MODEL['id_' + str(obj.parent.id)]))
+
+        for child in obj.children():
             self.visit(child)
-
-        if fco.type.name in self._assoc_class_names:
-            src_attr = getattr(fco, 'src' + fco.type.name)
-            dst_attr = getattr(fco, 'dst' + fco.type.name)
-
-            src_uri = self.NS_MODEL['id_' + str(src_attr.id)]
-            dst_uri = self.NS_MODEL['id_' + str(dst_attr.id)]
-
-            self.g.add((uri_fco, self.NS_METAMODEL['src' + fco.type.name], src_uri))
-            self.g.add((uri_fco, self.NS_METAMODEL['dst' + fco.type.name], dst_uri))
-
-        # Attributes
-        if fco.type.name in self._class_attributes:
-            for attr in self._class_attributes[fco.type.name]:
-                attr_attr = getattr(fco, attr)
-                self.g.add((uri_fco, self.NS_METAMODEL[attr], Literal(attr_attr)))
