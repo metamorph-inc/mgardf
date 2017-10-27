@@ -108,6 +108,13 @@ class MgaRdfConverter(object):
         uri_type = self.NS_METAMODEL[type_obj]
         self.g.add((uri_obj, RDF.type, uri_type))
 
+        if obj.is_subtype:
+            self.g.add((uri_obj, RDF.type, self.NS_GME['subtype']))
+        if obj.is_instance:
+            self.g.add((uri_obj, RDF.type, self.NS_GME['instance']))
+        if not obj.archetype == udm.null:
+            self.g.add((uri_obj, self.NS_GME['archetype'], self.NS_MODEL['id_' + str(obj.archetype.id)]))
+
         if type_obj in self._assoc_class_names:
             src_attr = getattr(obj, 'src' + obj.type.name)
             dst_attr = getattr(obj, 'dst' + obj.type.name)

@@ -37,6 +37,8 @@ class BasicTestSuite(unittest.TestCase):
 
         cls.g = MgaRdfConverter.convert(dn.root, udm_xml=BasicTestSuite.PATH_UDM_XML)
 
+        print(cls.g.serialize(format='turtle'))
+
         cls.dn.close_no_update()
         cls.meta_dn.close_no_update()
 
@@ -77,9 +79,27 @@ class BasicTestSuite(unittest.TestCase):
         """
 
         res = self.g.query(sparql_all_primitives)
-        self.assertEqual(8, len(res))
+        self.assertEqual(10, len(res))
         for row in res:
             self.assertIn(str(row[0]), ['Primitive', 'PrimitiveParts'])
+
+    def test_instances(self):
+        sparql_compound_instance = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
+            
+            SELECT ?comp
+            WHERE {
+                ?comp a sf:Compound .
+                ?comp sf:name "Compound_Instance" .
+                ?comp a gme:instance .
+                ?comp gme:archetype ?comp_arch .
+                ?comp_arch sf:name "Compound"
+            }
+        """
+
+        res = self.g.query(sparql_compound_instance)
+        self.assertEqual(1, len(res))
 
 
 if __name__ == '__main__':
