@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{338EF579-4966-4917-ADB2-52A908F8A44C}" cdate="Mon Oct 30 06:05:58 2017" mdate="Mon Oct 30 06:05:58 2017" version="" metaguid="{FD6A6619-FACE-45DE-82A3-81461BCB4598}" metaversion="" metaname="GenericLanguage">
+	<name>RF</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x4" kind="RootFolder" guid="{a7ac5d82-5da6-4f21-8c89-4bbad0979d5c}">
+		<name>RF</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x0" kind="Folder" guid="{e8a8ff24-4a46-4f46-8fab-0652d4a0754b}">
+			<name>FolderA</name>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x2" kind="Folder" guid="{a7176329-96d6-475d-a61e-a340e03f679a}">
+			<name>FolderB</name>
+			<folder id="id-006a-00000004" relid="0x1" childrelidcntr="0x0" kind="Folder" guid="{e6665cbc-78a1-42bc-b918-da03b193e70c}">
+				<name>FolderB2</name>
+			</folder>
+			<folder id="id-006a-00000005" relid="0x2" childrelidcntr="0x0" kind="Folder" guid="{2d9b8f03-0d08-4498-a39b-9b148ee5485a}">
+				<name>FolderB1</name>
+			</folder>
+		</folder>
+		<model id="id-0065-00000001" kind="Model" guid="{76be7366-ba8d-415e-bd6c-dcde243f03ec}" relid="0x4" childrelidcntr="0x4">
+			<name>RootModel</name>
+			<model id="id-0065-00000002" kind="Model" role="Model" guid="{c56e59a7-8ffd-41ef-a30a-a52e6bbcfaef}" relid="0x2" childrelidcntr="0x0">
+				<name>Model</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>182,42</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</model>
+			<atom id="id-0066-00000002" kind="Atom" role="Atom" guid="{eb69e4f1-ea23-44ea-b67e-08114e79fb5b}" relid="0x1">
+				<name>Atom</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>56,56</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</atom>
+			<reference id="id-0067-00000001" kind="Reference" role="Reference" guid="{907fde98-c31f-4550-8025-26bc031953a2}" relid="0x3" referred="id-0066-00000002">
+				<name>Reference</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>385,56</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</reference>
+			<set id="id-0069-00000001" kind="Set" role="Set" guid="{a80407ab-cbd7-4623-8e66-f3c6be08486d}" relid="0x4">
+				<name>Set</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>539,56</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</set>
+		</model>
+		<atom id="id-0066-00000001" kind="Atom" guid="{4bf7fce4-b9d3-42cc-9dc4-ffd2617e20af}" relid="0x3">
+			<name>RootAtom</name>
+		</atom>
+	</folder>
+</project>
