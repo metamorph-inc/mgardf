@@ -65,7 +65,17 @@ class MgaRdfConverter(object):
         self.g.namespace_manager.bind('model', self.NS_MODEL)
 
         self._assoc_class_names = set()
+
+        # Dictionary format:
+        #   class name : set of names of attributes that this class has
         self._class_attributes = dict()
+
+        # Dictionary format:
+        #   reference class name : rolename
+        # (reference side rolename, not referent side)
+        # We need this rolename in order to find call the right attribute
+        # for fetching the referent when we have the reference object.
+        self._reference_class_roles = dict()
 
         g_meta = Graph()
         g_meta.namespace_manager.bind('gme', self.NS_GME)
@@ -79,10 +89,10 @@ class MgaRdfConverter(object):
         root = tree.getroot()
         # Build graph structures around the language
         for clazz in root.iter('Class'):
-            uri_class = self.NS_METAMODEL[clazz.get('_id')]
+            id_class = clazz.get('_id')
+            uri_class = self.NS_METAMODEL[id_class]
             g_meta.add((uri_class, RDF.type, self.NS_GME['class']))
-
-            g_meta.add((uri_class, self.NS_GME['id'], Literal(clazz.get('_id'))))
+            g_meta.add((uri_class, self.NS_GME['id'], Literal(id_class)))
             g_meta.add((uri_class, self.NS_GME['name'], Literal(clazz.get('name'))))
             g_meta.add((uri_class, self.NS_GME['isAbstract'], Literal(clazz.get('isAbstract') == 'true')))
 
@@ -91,10 +101,25 @@ class MgaRdfConverter(object):
                 for basetype_id in basetypes.split(' '):
                     g_meta.add((uri_class, self.NS_GME['baseType'], self.NS_METAMODEL[basetype_id]))
 
-            association_id = clazz.get('association')
-            if association_id:
+            stereotype = clazz.get('stereotype')
+            if stereotype == 'Connection':
                 g_meta.add((uri_class, RDF.type, self.NS_GME['association']))
                 self._assoc_class_names.add(clazz.get('name'))
+
+            elif stereotype == 'Reference':
+                association_id = clazz.get('associationRoles')
+                # We need to get the corresponding association.
+                association = tree.find('.//AssociationRole[@_id="{}"]/..'.format(association_id))
+
+                rolename = None
+                association_roles = association.findall('AssociationRole')
+                for ar in association_roles:
+                    id_ar = ar.get('_id')
+                    if id_ar != id_class:
+                        rolename = ar.get('name')
+
+                if rolename:
+                    self._reference_class_roles[clazz.get('name')] = rolename
 
             for attr in clazz.iter('Attribute'):
                 g_meta.add((uri_class, self.NS_GME['hasAttribute'], Literal(attr.get('name'))))
@@ -192,6 +217,14 @@ class MgaRdfConverter(object):
                 val_attr = getattr(obj, name_attr)
                 literal_attr = self.val_to_literal(val_attr)
                 self.g.add((uri_obj, self.build_attr_uri(name_attr), literal_attr))
+
+        # References
+        if obj_type_name in self._reference_class_roles:
+            rolename = self._reference_class_roles[obj_type_name]
+            referent = getattr(obj, rolename)
+            uri_referent = self.build_obj_uri(referent.id)
+
+            self.g.add((uri_obj, self.NS_GME.references, uri_referent))
 
         literal_name = Literal(obj.name)
         self.g.add((uri_obj, self.URI_GME_NAME, literal_name))
