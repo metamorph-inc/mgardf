@@ -1,0 +1,24 @@
+install:
+  - python -m pip install --upgrade virtualenv==15.0.2
+  - python -m virtualenv venv
+  - venv\scripts\activate
+  - pip install -r requirements.txt
+
+  - ps: (new-object net.webclient).DownloadFile('http://repo.isis.vanderbilt.edu/GME/17.10.13/GME_x64-17.10.13.msi', 'c:\GME_x64-17.10.13.msi')
+  - ps: (new-object net.webclient).DownloadFile('http://repo.isis.vanderbilt.edu/UDM/3.2.14/UDM_x64-3.2.14.msi', 'c:\UDM_x64-3.2.14.msi')
+  - msiexec /i c:\GME_x64-17.10.13.msi /quiet /qn /norestart /log GME_install.log
+  - msiexec /i c:\UDM_x64-3.2.14.msi /quiet /qn /norestart /log UDM_install.log
+
+build_script:
+  - '.\venv\Scripts\python setup.py bdist_wheel'
+
+artifacts:
+  - path: 'dist\*.whl'
+  - path: 'nosetests.xml'
+
+test_script:
+  - nosetests -v --with-xunit tests\basic.py
+
+after_test:
+  - ps: echo $($env:APPVEYOR_JOB_ID)
+  - ps: $wc = New-Object 'System.Net.WebClient'; $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\nosetests.xml))
