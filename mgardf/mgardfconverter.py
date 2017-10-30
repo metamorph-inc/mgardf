@@ -9,6 +9,41 @@ with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_met
 sys.path.append(os.path.join(meta_path, 'bin'))
 import udm
 
+import collections
+import functools
+
+
+# Memoize taken from https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize
+class memoized(object):
+    """Decorator. Caches a function's return value each time it is called.
+    If called later with the same arguments, the cached value is returned
+    (not reevaluated).
+    """
+
+    def __init__(self, func):
+        self.func = func
+        self.cache = {}
+
+    def __call__(self, *args):
+        if not isinstance(args, collections.Hashable):
+            # un-cacheable. a list, for instance.
+            # better to not cache than blow up.
+            return self.func(*args)
+        if args in self.cache:
+            return self.cache[args]
+        else:
+            value = self.func(*args)
+            self.cache[args] = value
+            return value
+
+    def __repr__(self):
+        """Return the function's docstring."""
+        return self.func.__doc__
+
+    def __get__(self, obj, objtype):
+        """Support instance methods."""
+        return functools.partial(self.__call__, obj)
+
 
 class MgaRdfConverter(object):
     def __init__(self, udm_xml=None):
@@ -17,6 +52,13 @@ class MgaRdfConverter(object):
         self.NS_GME = Namespace('https://forge.isis.vanderbilt.edu/gme/')
         self.NS_METAMODEL = Namespace('http://www.metamorphsoftware.com/openmeta/')
         self.NS_MODEL = Namespace('http://localhost/model/')
+
+        self.URI_ARCHETYPE = self.NS_GME['archetype']
+        self.URI_GME_NAME = self.NS_GME.name
+        self.URI_METAMODEL_NAME = self.NS_METAMODEL.name
+        self.URI_GME_PARENT = self.NS_GME.parent
+        self.URI_GME_SUBTYPE = self.NS_GME.subtype
+        self.URI_GME_INSTANCE = self.NS_GME.instance
 
         self.g.namespace_manager.bind('gme', self.NS_GME)
         self.g.namespace_manager.bind('openmeta', self.NS_METAMODEL)
@@ -52,20 +94,11 @@ class MgaRdfConverter(object):
             association_id = clazz.get('association')
             if association_id:
                 g_meta.add((uri_class, RDF.type, self.NS_GME['association']))
+                self._assoc_class_names.add(clazz.get('name'))
 
             for attr in clazz.iter('Attribute'):
                 g_meta.add((uri_class, self.NS_GME['hasAttribute'], Literal(attr.get('name'))))
 
-        # Make a list of all the association classes
-        sparql_AllAssociations = """
-                PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
-                SELECT ?name
-                WHERE {
-                    ?class a gme:association .
-                    ?class gme:name ?name
-                }"""
-        result_assoc = g_meta.query(sparql_AllAssociations)
-        self._assoc_class_names = set([a[0] for a in result_assoc])
         sparql_PropogateAttributeInheritance = """
                 PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
 
@@ -78,6 +111,7 @@ class MgaRdfConverter(object):
         result_attr_inheritance = g_meta.query(sparql_PropogateAttributeInheritance)
         g_attr_inheritance = Graph().parse(data=result_attr_inheritance.serialize())
         g_inheritance = g_meta + g_attr_inheritance
+
         sparql_AllClassAttributes = """
                 PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
 
@@ -101,42 +135,71 @@ class MgaRdfConverter(object):
         v.visit(fco)
         return v.g
 
-    def visit(self, obj):
-        uri_obj = self.NS_MODEL['id_' + str(obj.id)]
-        type_obj = obj.type.name
+    @memoized
+    def build_obj_uri(self, obj_id):
+        return self.NS_MODEL['id_' + str(obj_id)]
 
-        uri_type = self.NS_METAMODEL[type_obj]
+    @memoized
+    def build_type_uri(self, type_name):
+        return self.NS_METAMODEL[type_name]
+
+    # Many attribute values are repeated, so it's worthwhile to memoize
+    @memoized
+    def val_to_literal(self, value):
+        return Literal(value)
+
+    # These attribute URIs get built frequently, so it's worthwhile to memoize
+    @memoized
+    def build_attr_uri(self, name_attr):
+        return self.NS_METAMODEL[name_attr]
+
+    @memoized
+    def build_connection_role_uris(self, name_class):
+        uri_src_role = self.NS_METAMODEL['src' + name_class]
+        uri_dst_role = self.NS_METAMODEL['dst' + name_class]
+        return uri_src_role, uri_dst_role
+
+    def visit(self, obj):
+        uri_obj = self.build_obj_uri(obj.id)
+        obj_type_name = obj.type.name
+        uri_type = self.build_type_uri(obj_type_name)
+
         self.g.add((uri_obj, RDF.type, uri_type))
 
         if obj.is_subtype:
-            self.g.add((uri_obj, RDF.type, self.NS_GME['subtype']))
+            self.g.add((uri_obj, RDF.type, self.URI_GME_SUBTYPE))
         if obj.is_instance:
-            self.g.add((uri_obj, RDF.type, self.NS_GME['instance']))
+            self.g.add((uri_obj, RDF.type, self.URI_GME_INSTANCE))
         if not obj.archetype == udm.null:
-            self.g.add((uri_obj, self.NS_GME['archetype'], self.NS_MODEL['id_' + str(obj.archetype.id)]))
+            arch_uri = self.build_obj_uri(obj.archetype.id)
+            self.g.add((uri_obj, self.URI_ARCHETYPE, arch_uri))
 
-        if type_obj in self._assoc_class_names:
-            src_attr = getattr(obj, 'src' + obj.type.name)
-            dst_attr = getattr(obj, 'dst' + obj.type.name)
+        if obj_type_name in self._assoc_class_names:
+            src_attr = getattr(obj, 'src' + obj_type_name)
+            dst_attr = getattr(obj, 'dst' + obj_type_name)
 
-            src_uri = self.NS_MODEL['id_' + str(src_attr.id)]
-            dst_uri = self.NS_MODEL['id_' + str(dst_attr.id)]
+            src_uri = self.build_obj_uri(src_attr.id)
+            dst_uri = self.build_obj_uri(dst_attr.id)
 
-            self.g.add((uri_obj, self.NS_METAMODEL['src' + obj.type.name], src_uri))
-            self.g.add((uri_obj, self.NS_METAMODEL['dst' + obj.type.name], dst_uri))
+            uri_src_role, uri_dst_role = self.build_connection_role_uris(obj_type_name)
+
+            self.g.add((uri_obj, uri_src_role, src_uri))
+            self.g.add((uri_obj, uri_dst_role, dst_uri))
 
         # Attributes
-        if type_obj in self._class_attributes:
-            for attr in self._class_attributes[obj.type.name]:
-                attr_attr = getattr(obj, attr)
-                self.g.add((uri_obj, self.NS_METAMODEL[attr], Literal(attr_attr)))
+        if obj_type_name in self._class_attributes:
+            for name_attr in self._class_attributes[obj_type_name]:
+                val_attr = getattr(obj, name_attr)
+                literal_attr = self.val_to_literal(val_attr)
+                self.g.add((uri_obj, self.build_attr_uri(name_attr), literal_attr))
 
-        fco_name = obj.name
-        self.g.add((uri_obj, self.NS_GME.name, Literal(fco_name)))
-        self.g.add((uri_obj, self.NS_METAMODEL.name, Literal(fco_name)))
+        literal_name = Literal(obj.name)
+        self.g.add((uri_obj, self.URI_GME_NAME, literal_name))
+        self.g.add((uri_obj, self.URI_METAMODEL_NAME, literal_name))
 
         if not obj.parent == udm.null:
-            self.g.add((uri_obj, self.NS_GME.parent, self.NS_MODEL['id_' + str(obj.parent.id)]))
+            parent_uri = self.build_obj_uri(obj.parent.id)
+            self.g.add((uri_obj, self.URI_GME_PARENT, parent_uri))
 
         for child in obj.children():
             self.visit(child)

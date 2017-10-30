@@ -12,7 +12,6 @@ with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_met
 sys.path.append(os.path.join(meta_path, 'bin'))
 import udm
 
-
 PATH_GME = r'C:\Program Files (x86)\GME'
 PATH_MGA = r'C:\Users\Adam\repo\tto-robotics\centipede\TASCK_Centipede.mga'
 PATH_UDM_XML = r'C:\Users\Adam\repo\tonka\generated\CyPhyML\models\CyPhyML_udm.xml'
@@ -28,7 +27,12 @@ dn.open(PATH_MGA.encode("utf-8"), b"")
 start = time.time()
 
 # cls.g = MgaRdfConverter.convert(dn.root, udm_xml=BasicTestSuite.PATH_UDM_XML)
-MgaRdfConverter.convert(dn.root)
+# import cProfile
+#
+# pr = cProfile.Profile()
+# pr.enable()
+g = MgaRdfConverter.convert(dn.root, udm_xml=PATH_UDM_XML)
+# pr.disable()
 
 end = time.time()
 print('Time: {} sec'.format(end - start))
@@ -37,3 +41,15 @@ print('Time: {} sec'.format(end - start))
 
 dn.close_no_update()
 meta_dn.close_no_update()
+
+# Let's load our stats file and sort it
+# to focus on long-running code and our code specifically
+# import StringIO
+# import pstats
+#
+# s = StringIO.StringIO()
+# ps = pstats.Stats(pr, stream=s).sort_stats('filename', 'cumulative')
+# ps.print_stats()
+#
+# for line in s.getvalue().split('\n'):
+#     print(line)
