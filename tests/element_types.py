@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# from .context import mgardf
 from mgardf.mgardfconverter import MgaRdfConverter
 import unittest
-import _winreg as winreg
 import os
-import sys
-
-with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
-    meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
-sys.path.append(os.path.join(meta_path, 'bin'))
+from utilities import xme2mga
 import udm
 
 
@@ -19,11 +13,18 @@ class ElementTypesTestSuite(unittest.TestCase):
     PATH_GME = r'C:\Program Files (x86)\GME'
     PATH_MGA = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                             r'models\generic_language\gl_test_model.mga')
+    PATH_XME = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                            r'models\generic_language\gl_test_model.xme')
     PATH_UDM_XML = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                 r'models\generic_language\generic_language_udm.xml')
 
     @classmethod
     def setUpClass(cls):
+        # Delete and reimport the SF model
+        if os.path.exists(cls.PATH_MGA):
+            os.remove(cls.PATH_MGA)
+        xme2mga(cls.PATH_XME, cls.PATH_MGA)
+
         # Load the MGA and UDM. Let's only do this once okay?
         uml_diagram = udm.uml_diagram()
         meta_dn = udm.SmartDataNetwork(uml_diagram)
@@ -36,9 +37,7 @@ class ElementTypesTestSuite(unittest.TestCase):
 
         cls.g = MgaRdfConverter.convert(dn.root, udm_xml=cls.PATH_UDM_XML)
 
-        path_ttl_output = 'element_types_test_suite.ttl'
-        print('Serializing converted TTL output to {}'.format(path_ttl_output))
-        cls.g.serialize(path_ttl_output, format='turtle')
+        print(cls.g.serialize(format='turtle'))
 
         cls.dn.close_no_update()
         cls.meta_dn.close_no_update()
