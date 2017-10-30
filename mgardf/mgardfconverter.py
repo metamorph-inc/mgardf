@@ -3,10 +3,6 @@ import xml.etree.ElementTree as ET
 import _winreg as winreg
 import os
 import sys
-
-with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
-    meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
-sys.path.append(os.path.join(meta_path, 'bin'))
 import udm
 
 import collections
