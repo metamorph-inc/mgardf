@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE paradigm SYSTEM "edf.dtd">
+
+<paradigm name="GenericLanguage" guid="{5C395FD1-F092-49AD-94D8-02ED456FB0E3}" cdate="Mon Oct 30 06:04:11 2017" mdate="Mon Oct 30 06:04:11 2017" >
+
+	<comment></comment>
+
+	<author></author>
+
+	<folder name = "RootFolder" metaref = "1000"  subfolders = "Folder" >
+		<atom name = "Atom" metaref = "1001" >
+				<regnode name = "namePosition" value ="4"></regnode>
+		</atom>
+		<set name = "Set" metaref = "1002" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "mName" value ="members"></regnode>
+				<regnode name = "sName" value ="setSet"></regnode>
+			<pointerspec name = "set">
+				<pointeritem desc = "Atom"></pointeritem>
+				<pointeritem desc = "Connection"></pointeritem>
+				<pointeritem desc = "Model"></pointeritem>
+				<pointeritem desc = "Reference"></pointeritem>
+				<pointeritem desc = "Set"></pointeritem>
+			</pointerspec>
+		</set>
+		<connection name = "Connection" metaref = "1003" >
+				<regnode name = "sName" value ="srcConnection"></regnode>
+				<regnode name = "dName" value ="dstConnection"></regnode>
+				<regnode name = "color" value ="0x000000"></regnode>
+				<regnode name = "dstStyle" value ="butt"></regnode>
+				<regnode name = "srcStyle" value ="butt"></regnode>
+				<regnode name = "lineType" value ="solid"></regnode>
+			<connjoint>
+				<pointerspec name = "src">
+					<pointeritem desc = "Atom"></pointeritem>
+					<pointeritem desc = "Connection"></pointeritem>
+					<pointeritem desc = "Model"></pointeritem>
+					<pointeritem desc = "Model Atom"></pointeritem>
+					<pointeritem desc = "Model Connection"></pointeritem>
+					<pointeritem desc = "Model Model"></pointeritem>
+					<pointeritem desc = "Model Reference"></pointeritem>
+					<pointeritem desc = "Model Set"></pointeritem>
+					<pointeritem desc = "Reference"></pointeritem>
+					<pointeritem desc = "Reference Atom"></pointeritem>
+					<pointeritem desc = "Reference Connection"></pointeritem>
+					<pointeritem desc = "Reference Model"></pointeritem>
+					<pointeritem desc = "Reference Reference"></pointeritem>
+					<pointeritem desc = "Reference Set"></pointeritem>
+					<pointeritem desc = "Set"></pointeritem>
+				</pointerspec>
+				<pointerspec name = "dst">
+					<pointeritem desc = "Atom"></pointeritem>
+					<pointeritem desc = "Connection"></pointeritem>
+					<pointeritem desc = "Model"></pointeritem>
+					<pointeritem desc = "Model Atom"></pointeritem>
+					<pointeritem desc = "Model Connection"></pointeritem>
+					<pointeritem desc = "Model Model"></pointeritem>
+					<pointeritem desc = "Model Reference"></pointeritem>
+					<pointeritem desc = "Model Set"></pointeritem>
+					<pointeritem desc = "Reference"></pointeritem>
+					<pointeritem desc = "Reference Atom"></pointeritem>
+					<pointeritem desc = "Reference Connection"></pointeritem>
+					<pointeritem desc = "Reference Model"></pointeritem>
+					<pointeritem desc = "Reference Reference"></pointeritem>
+					<pointeritem desc = "Reference Set"></pointeritem>
+					<pointeritem desc = "Set"></pointeritem>
+				</pointerspec>
+			</connjoint>
+		</connection>
+		<reference name = "Reference" metaref = "1004">
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "rName" value ="ref"></regnode>
+				<regnode name = "rrName" value ="referedbyReference"></regnode>
+			<pointerspec name = "ref">
+				<pointeritem desc = "Atom"></pointeritem>
+				<pointeritem desc = "Connection"></pointeritem>
+				<pointeritem desc = "Model"></pointeritem>
+				<pointeritem desc = "Reference"></pointeritem>
+				<pointeritem desc = "Set"></pointeritem>
+			</pointerspec>
+		</reference>
+		<model name = "Model" metaref = "1005" >
+				<regnode name = "namePosition" value ="4"></regnode>
+				<regnode name = "isTypeInfoShown" value ="true"></regnode>
+			<role name = "Atom" metaref = "1006" kind = "Atom"></role>
+			<role name = "Connection" metaref = "1007" kind = "Connection"></role>
+			<role name = "Model" metaref = "1009" kind = "Model"></role>
+			<role name = "Reference" metaref = "1010" kind = "Reference"></role>
+			<role name = "Set" metaref = "1011" kind = "Set"></role>
+			<aspect name = "Aspect" metaref = "1020" >
+				<part metaref = "1013" role = "Atom" primary = "yes" linked = "yes"></part>
+				<part metaref = "1014" role = "Connection" primary = "yes" linked = "yes"></part>
+				<part metaref = "1016" role = "Model" primary = "yes" linked = "yes"></part>
+				<part metaref = "1017" role = "Reference" primary = "yes" kindaspect = "Aspect" linked = "yes"></part>
+				<part metaref = "1018" role = "Set" primary = "yes" linked = "yes"></part>
+			</aspect>
+		</model>
+		<folder name = "Folder" metaref = "1019"  subfolders = "Folder" rootobjects = "Atom Connection Model Reference Set" >
+		</folder>
+	</folder>
+</paradigm>
