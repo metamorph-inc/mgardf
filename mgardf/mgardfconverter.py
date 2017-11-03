@@ -104,18 +104,23 @@ class MgaRdfConverter(object):
 
             elif stereotype == 'Reference':
                 association_id = clazz.get('associationRoles')
-                # We need to get the corresponding association.
-                association = tree.find('.//AssociationRole[@_id="{}"]/..'.format(association_id))
 
-                rolename = None
-                association_roles = association.findall('AssociationRole')
-                for ar in association_roles:
-                    id_ar = ar.get('_id')
-                    if id_ar != id_class:
-                        rolename = ar.get('name')
+                if association_id:
+                    if association_id.find(' ') > 0:
+                        association_id = association_id.split()[0]
 
-                if rolename:
-                    self._reference_class_roles[clazz.get('name')] = rolename
+                    # We need to get the corresponding association.
+                    association = tree.find('.//AssociationRole[@_id="{}"]/..'.format(association_id))
+
+                    rolename = None
+                    association_roles = association.findall('AssociationRole')
+                    for ar in association_roles:
+                        id_ar = ar.get('_id')
+                        if id_ar != id_class:
+                            rolename = ar.get('name')
+
+                    if rolename:
+                        self._reference_class_roles[clazz.get('name')] = rolename
 
             for attr in clazz.iter('Attribute'):
                 g_meta.add((uri_class, self.NS_GME['hasAttribute'], Literal(attr.get('name'))))
