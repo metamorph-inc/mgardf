@@ -180,12 +180,23 @@ class MgaRdfConverter(object):
         uri_dst_role = self.NS_METAMODEL['dst' + name_class]
         return uri_src_role, uri_dst_role
 
+    @staticmethod
+    def ancestors(o):
+        while o:
+            yield o
+            o = o.parent
+
     def visit(self, obj):
         uri_obj = self.build_obj_uri(obj.id)
         obj_type_name = obj.type.name
         uri_type = self.build_type_uri(obj_type_name)
 
         self.g.add((uri_obj, RDF.type, uri_type))
+
+        ancestor_chain = list([a.name for a in self.ancestors(obj)])
+        ancestor_chain.reverse()
+        self.g.add((uri_obj, self.NS_GME['path'],
+                    Literal('.'.join(ancestor_chain))))
 
         if obj.is_subtype:
             self.g.add((uri_obj, RDF.type, self.URI_GME_SUBTYPE))
