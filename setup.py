@@ -15,5 +15,9 @@ setup(
     author_email='adam.nagel+git@gmail.com',
     url='https://github.com/metamorph-inc/mgardf',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('tests', 'docs')),
+    install_requires=[
+        'mgardf',
+        'udm'
+    ]
 )
