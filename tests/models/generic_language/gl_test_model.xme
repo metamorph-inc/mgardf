@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{338EF579-4966-4917-ADB2-52A908F8A44C}" cdate="Mon Oct 30 06:05:58 2017" mdate="Mon Oct 30 06:05:58 2017" version="" metaguid="{FD6A6619-FACE-45DE-82A3-81461BCB4598}" metaversion="" metaname="GenericLanguage">
+<project guid="{213D8F98-1C5A-4279-97CD-9415F01A6403}" cdate="Mon Jan 08 16:01:06 2018" mdate="Mon Jan 08 16:01:06 2018" version="" metaguid="{E430B1FB-FE31-4565-8AE9-53FEE7F98228}" metaversion="" metaname="GenericLanguage">
 	<name>RF</name>
 	<comment></comment>
 	<author></author>
@@ -19,7 +19,7 @@
 				<name>FolderB1</name>
 			</folder>
 		</folder>
-		<model id="id-0065-00000001" kind="Model" guid="{76be7366-ba8d-415e-bd6c-dcde243f03ec}" relid="0x4" childrelidcntr="0x4">
+		<model id="id-0065-00000001" kind="Model" guid="{76be7366-ba8d-415e-bd6c-dcde243f03ec}" relid="0x4" childrelidcntr="0x9">
 			<name>RootModel</name>
 			<model id="id-0065-00000002" kind="Model" role="Model" guid="{c56e59a7-8ffd-41ef-a30a-a52e6bbcfaef}" relid="0x2" childrelidcntr="0x0">
 				<name>Model</name>
@@ -33,7 +33,7 @@
 					</regnode>
 				</regnode>
 			</model>
-			<atom id="id-0066-00000002" kind="Atom" role="Atom" guid="{eb69e4f1-ea23-44ea-b67e-08114e79fb5b}" relid="0x1">
+			<atom id="id-0066-00000001" kind="Atom" role="Atom" guid="{eb69e4f1-ea23-44ea-b67e-08114e79fb5b}" relid="0x1">
 				<name>Atom</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -45,7 +45,19 @@
 					</regnode>
 				</regnode>
 			</atom>
-			<reference id="id-0067-00000001" kind="Reference" role="Reference" guid="{907fde98-c31f-4550-8025-26bc031953a2}" relid="0x3" referred="id-0066-00000002">
+			<reference id="id-0067-00000001" kind="Reference" role="Reference" guid="{907fde98-c31f-4550-8025-26bc031953a2}" relid="0x3" referred="id-0066-00000001">
+				<name>ReferenceB</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="Aspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>385,182</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</reference>
+			<reference id="id-0067-00000002" kind="Reference" role="Reference" guid="{afa1b36d-3ff7-4af7-9eb9-529a751eb499}" relid="0x7" referred="id-0066-00000001">
 				<name>Reference</name>
 				<regnode name="PartRegs" status="undefined">
 					<value></value>
@@ -56,7 +68,26 @@
 						</regnode>
 					</regnode>
 				</regnode>
+				<regnode name="namePosition" isopaque="yes">
+					<value>0</value>
+				</regnode>
 			</reference>
+			<connection id="id-0068-00000001" kind="Connection" role="Connection" guid="{93fed801-f1e8-4bcd-9c8f-74ba13247f31}" relid="0x6">
+				<name>Connection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>Ew</value>
+				</regnode>
+				<connpoint role="dst" target="id-0065-00000002"/>
+				<connpoint role="src" target="id-0066-00000001"/>
+			</connection>
+			<connection id="id-0068-00000002" kind="ConnectionForRefOnly" role="ConnectionForRefOnly" guid="{b3725175-3cdd-4e46-befb-7fbd7cfed7fd}" relid="0x9">
+				<name>ConnectionForRefOnly</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>Sn</value>
+				</regnode>
+				<connpoint role="dst" target="id-0067-00000001"/>
+				<connpoint role="src" target="id-0067-00000002"/>
+			</connection>
 			<set id="id-0069-00000001" kind="Set" role="Set" guid="{a80407ab-cbd7-4623-8e66-f3c6be08486d}" relid="0x4">
 				<name>Set</name>
 				<regnode name="PartRegs" status="undefined">
@@ -70,7 +101,7 @@
 				</regnode>
 			</set>
 		</model>
-		<atom id="id-0066-00000001" kind="Atom" guid="{4bf7fce4-b9d3-42cc-9dc4-ffd2617e20af}" relid="0x3">
+		<atom id="id-0066-00000002" kind="Atom" guid="{4bf7fce4-b9d3-42cc-9dc4-ffd2617e20af}" relid="0x3">
 			<name>RootAtom</name>
 		</atom>
 	</folder>

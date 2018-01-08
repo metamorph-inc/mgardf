@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{D56FC5A3-D9AE-49F3-9991-B65B03CBA51B}" cdate="Mon Oct 30 06:07:40 2017" mdate="Mon Oct 30 06:07:40 2017" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
+<project guid="{417128BE-F327-4DA5-8840-DFD88FBD4BDA}" cdate="Mon Jan 08 14:54:13 2018" mdate="Mon Jan 08 14:54:13 2018" version="" metaguid="{C84D2738-4519-44F2-B4C1-114F73567576}" metaversion="" metaname="MetaGME">
 	<name>GenericLanguage</name>
 	<comment></comment>
 	<author></author>
@@ -68,6 +68,30 @@
 				<regnode name="PrimaryAspects" status="undefined">
 					<value></value>
 					<regnode name="Model:Connection" status="undefined">
+						<value></value>
+						<regnode name="Aspect" isopaque="yes">
+							<value>yes</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</regnode>
+			<regnode name="ConnectionForRefOnly-1a-Connection" status="undefined">
+				<value></value>
+				<regnode name="MetaRef" isopaque="yes">
+					<value>1020</value>
+					<regnode name="Model" status="undefined">
+						<value></value>
+						<regnode name="ConnectionForRefOnly" isopaque="yes">
+							<value>1021</value>
+							<regnode name="Aspect" isopaque="yes">
+								<value>1023</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</regnode>
+				<regnode name="PrimaryAspects" status="undefined">
+					<value></value>
+					<regnode name="Model:ConnectionForRefOnly" status="undefined">
 						<value></value>
 						<regnode name="Aspect" isopaque="yes">
 							<value>yes</value>
@@ -196,7 +220,7 @@
 				</regnode>
 			</regnode>
 		</regnode>
-		<model id="id-0065-00000001" kind="ParadigmSheet" guid="{180229fe-0dbd-4ef0-bd4b-90bf29d613fa}" relid="0x1" childrelidcntr="0x19">
+		<model id="id-0065-00000001" kind="ParadigmSheet" guid="{180229fe-0dbd-4ef0-bd4b-90bf29d613fa}" relid="0x1" childrelidcntr="0x1f">
 			<name>ParadigmSheet</name>
 			<atom id="id-0066-00000001" kind="Folder" role="Folder" guid="{5adedc8e-b63b-4ca4-b9fa-e4b06208e503}" relid="0x2">
 				<name>Folder</name>
@@ -205,13 +229,13 @@
 					<regnode name="All" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>301,42</value>
+							<value>308,42</value>
 						</regnode>
 					</regnode>
 					<regnode name="Attributes" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>301,42</value>
+							<value>308,42</value>
 						</regnode>
 					</regnode>
 					<regnode name="ClassDiagram" status="undefined">
@@ -223,13 +247,13 @@
 					<regnode name="Constraints" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>301,42</value>
+							<value>308,42</value>
 						</regnode>
 					</regnode>
 					<regnode name="Visualization" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>301,42</value>
+							<value>308,42</value>
 						</regnode>
 					</regnode>
 				</regnode>
@@ -400,7 +424,7 @@
 					<regnode name="All" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>476,182</value>
+							<value>483,182</value>
 						</regnode>
 					</regnode>
 					<regnode name="ClassDiagram" status="undefined">
@@ -412,7 +436,7 @@
 					<regnode name="Visualization" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>476,182</value>
+							<value>483,182</value>
 						</regnode>
 					</regnode>
 				</regnode>
@@ -621,13 +645,13 @@ dName = dstConnection</value>
 					<regnode name="All" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>70,329</value>
+							<value>70,322</value>
 						</regnode>
 					</regnode>
 					<regnode name="Attributes" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>70,329</value>
+							<value>70,322</value>
 						</regnode>
 					</regnode>
 					<regnode name="ClassDiagram" status="undefined">
@@ -639,13 +663,13 @@ dName = dstConnection</value>
 					<regnode name="Constraints" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>70,329</value>
+							<value>70,322</value>
 						</regnode>
 					</regnode>
 					<regnode name="Visualization" status="undefined">
 						<value></value>
 						<regnode name="Position" isopaque="yes">
-							<value>70,329</value>
+							<value>70,322</value>
 						</regnode>
 					</regnode>
 				</regnode>
@@ -966,6 +990,113 @@ sName = setSet</value>
 					<value></value>
 				</attribute>
 			</atom>
+			<atom id="id-0066-0000000a" kind="Connection" role="Connection" guid="{01c5f688-afbd-438b-be5b-bb0b29570c03}" relid="0x1a">
+				<name>ConnectionForRefOnly</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="All" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,413</value>
+						</regnode>
+					</regnode>
+					<regnode name="Attributes" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,413</value>
+						</regnode>
+					</regnode>
+					<regnode name="ClassDiagram" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,413</value>
+						</regnode>
+					</regnode>
+					<regnode name="Constraints" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,413</value>
+						</regnode>
+					</regnode>
+					<regnode name="Visualization" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>315,413</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Color" status="meta">
+					<value>0x000000</value>
+				</attribute>
+				<attribute kind="ConnLineEnd" status="meta">
+					<value>butt</value>
+				</attribute>
+				<attribute kind="ConnLineStart" status="meta">
+					<value>butt</value>
+				</attribute>
+				<attribute kind="ConnLineType" status="meta">
+					<value>solid</value>
+				</attribute>
+				<attribute kind="DisplayedName" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="DstAttrLabel1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="DstAttrLabel2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="GeneralPreferences">
+					<value>
+sName = srcConnectionForRefOnly
+dName = dstConnectionForRefOnly</value>
+				</attribute>
+				<attribute kind="InRootFolder" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsAbstract" status="meta">
+					<value>false</value>
+				</attribute>
+				<attribute kind="IsAutoRouted" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="LabelFormatStr" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="NamePosition" status="meta">
+					<value>4</value>
+				</attribute>
+				<attribute kind="SrcAttrLabel1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="SrcAttrLabel2" status="meta">
+					<value></value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000000b" kind="Connector" role="Connector" guid="{fae3db4c-ff70-421f-88c2-280335ff8225}" relid="0x1c">
+				<name>Connector</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="All" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,406</value>
+						</regnode>
+					</regnode>
+					<regnode name="ClassDiagram" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,406</value>
+						</regnode>
+					</regnode>
+					<regnode name="Visualization" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>217,406</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</atom>
 			<connection id="id-0068-00000001" kind="FolderContainment" role="FolderContainment" guid="{3cbd2eb8-587c-48fc-a0b0-32c85f4bfafa}" relid="0x3">
 				<name>FolderContainment</name>
 				<regnode name="autorouterPref" isopaque="yes">
@@ -1101,6 +1232,56 @@ sName = setSet</value>
 				</attribute>
 				<connpoint role="dst" target="id-0066-00000001"/>
 				<connpoint role="src" target="id-0066-00000003"/>
+			</connection>
+			<connection id="id-0068-0000000f" kind="DerivedInheritance" role="DerivedInheritance" guid="{aad50c79-b137-4dc7-a1e2-a63858437798}" relid="0x1b">
+				<name>DerivedInheritance</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>n</value>
+				</regnode>
+				<connpoint role="src" target="id-0066-00000002"/>
+				<connpoint role="dst" target="id-0066-0000000a"/>
+			</connection>
+			<connection id="id-0068-00000010" kind="SourceToConnector" role="SourceToConnector" guid="{dfdae305-49f9-4893-957b-3194ef2c9925}" relid="0x1d">
+				<name>SourceToConnector</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>eS</value>
+				</regnode>
+				<regnode name="customConnectionData" isopaque="yes">
+					<value>0,0,0,1,1,0,221,0,0,0</value>
+				</regnode>
+				<attribute kind="Cardinality" status="meta">
+					<value>0..*</value>
+				</attribute>
+				<attribute kind="srcRolename" status="meta">
+					<value>src</value>
+				</attribute>
+				<connpoint role="src" target="id-0066-00000008"/>
+				<connpoint role="dst" target="id-0066-0000000b"/>
+			</connection>
+			<connection id="id-0068-00000011" kind="ConnectorToDestination" role="ConnectorToDestination" guid="{84f7ac6e-734f-45f3-9f60-744474bb09c9}" relid="0x1e">
+				<name>ConnectorToDestination</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>sW</value>
+				</regnode>
+				<regnode name="customConnectionData" isopaque="yes">
+					<value>0,0,0,2,1,1,0,436,0,0</value>
+				</regnode>
+				<attribute kind="Cardinality" status="meta">
+					<value>0..*</value>
+				</attribute>
+				<attribute kind="dstRolename" status="meta">
+					<value>dst</value>
+				</attribute>
+				<connpoint role="dst" target="id-0066-00000008"/>
+				<connpoint role="src" target="id-0066-0000000b"/>
+			</connection>
+			<connection id="id-0068-00000012" kind="AssociationClass" role="AssociationClass" guid="{77cbeda3-9be6-4868-b8d9-8bd70e1d4c9a}" relid="0x1f">
+				<name>AssociationClass</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>sW</value>
+				</regnode>
+				<connpoint role="src" target="id-0066-0000000a"/>
+				<connpoint role="dst" target="id-0066-0000000b"/>
 			</connection>
 		</model>
 	</folder>

@@ -17,7 +17,7 @@ artifacts:
   - path: 'nosetests.xml'
 
 test_script:
-  - nosetests -v --with-xunit tests\basic.py
+  - nosetests -v --with-xunit tests\basic.py tests\element_types.py
 
 after_test:
   - ps: echo $($env:APPVEYOR_JOB_ID)

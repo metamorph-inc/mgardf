@@ -103,24 +103,30 @@ class MgaRdfConverter(object):
                 self._assoc_class_names.add(clazz.get('name'))
 
             elif stereotype == 'Reference':
-                association_id = clazz.get('associationRoles')
+                assoc_role_ids = clazz.get('associationRoles')
 
-                if association_id:
-                    if association_id.find(' ') > 0:
-                        association_id = association_id.split()[0]
+                if assoc_role_ids:
+                    for assoc_role_id in assoc_role_ids.split(' '):
+                        # We need to get the corresponding association.
+                        association = tree.find('.//AssociationRole[@_id="{}"]/..'
+                                                .format(assoc_role_id))
 
-                    # We need to get the corresponding association.
-                    association = tree.find('.//AssociationRole[@_id="{}"]/..'.format(association_id))
+                        # We need to make sure that the Association does not correspond to a Connection class.
+                        # This is the only way to tell reference associations from connection associations.
+                        # A Reference class has exactly one referent class.
+                        # If Association has no "assocClass" attribute, then we're clear.
+                        if association.get('assocClass'):
+                            continue
 
-                    rolename = None
-                    association_roles = association.findall('AssociationRole')
-                    for ar in association_roles:
-                        id_ar = ar.get('_id')
-                        if id_ar != id_class:
-                            rolename = ar.get('name')
+                        rolename = None
+                        association_roles = association.findall('AssociationRole')
+                        for ar in association_roles:
+                            id_ar_target = ar.get('target')
+                            if id_ar_target != id_class:
+                                rolename = ar.get('name')
 
-                    if rolename:
-                        self._reference_class_roles[clazz.get('name')] = rolename
+                        if rolename:
+                            self._reference_class_roles[clazz.get('name')] = rolename
 
             for attr in clazz.iter('Attribute'):
                 g_meta.add((uri_class, self.NS_GME['hasAttribute'], Literal(attr.get('name'))))

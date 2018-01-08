@@ -7,23 +7,34 @@ import _winreg as winreg
 import os
 import sys
 
-with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"Software\META") as software_meta:
-    meta_path, _ = winreg.QueryValueEx(software_meta, "META_PATH")
-sys.path.append(os.path.join(meta_path, 'bin'))
 import udm
+from utilities import xme2mga
 
 
 class ElementTypesTestSuite(unittest.TestCase):
     """Test cases for each MetaGME type."""
 
     PATH_GME = r'C:\Program Files (x86)\GME'
+    PATH_XME = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                            r'models\generic_language\gl_test_model.xme')
     PATH_MGA = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                             r'models\generic_language\gl_test_model.mga')
+    PATH_MTA = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                            r'models\generic_language\generic_language.mta')
     PATH_UDM_XML = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                 r'models\generic_language\generic_language_udm.xml')
 
     @classmethod
     def setUpClass(cls):
+        # Register the paradigm
+        reg = __import__('win32com.client').client.DispatchEx('Mga.MgaRegistrar')
+        reg.RegisterParadigmFromDataDisp('MGA=' + os.path.abspath(cls.PATH_MTA), 1)
+
+        # Delete and reimport the GL model
+        if os.path.exists(cls.PATH_MGA):
+            os.remove(cls.PATH_MGA)
+        xme2mga(cls.PATH_XME, cls.PATH_MGA)
+
         # Load the MGA and UDM. Let's only do this once okay?
         uml_diagram = udm.uml_diagram()
         meta_dn = udm.SmartDataNetwork(uml_diagram)
@@ -64,6 +75,27 @@ class ElementTypesTestSuite(unittest.TestCase):
         """
 
         res = self.g.query(sparql_ref_and_referent)
+        self.assertEqual(2, len(res))
+        for row in res:
+            print (row)
+
+    def test_reference_connection(self):
+        sparql_ref_connection = """
+            PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+            PREFIX gl: <http://www.metamorphsoftware.com/openmeta/>
+
+            SELECT ?ref ?refB
+            WHERE {
+                ?ref a gl:Reference .
+                ?conn a gl:ConnectionForRefOnly .
+                ?refB a gl:Reference .
+                
+                ?conn gl:srcConnectionForRefOnly ?ref .
+                ?conn gl:dstConnectionForRefOnly ?refB
+            }
+        """
+
+        res = self.g.query(sparql_ref_connection)
         self.assertEqual(1, len(res))
         for row in res:
             print (row)

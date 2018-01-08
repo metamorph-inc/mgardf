@@ -8,7 +8,7 @@ with open('LICENSE') as f:
 
 setup(
     name='mgardf',
-    version='0.1.0',
+    version='0.2.0',
     description='Utilities for converting GME MGA structures to RDF',
     long_description=readme,
     author='Adam Nagel',
