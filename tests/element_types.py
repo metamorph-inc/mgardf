@@ -3,12 +3,10 @@
 # from .context import mgardf
 from mgardf.mgardfconverter import MgaRdfConverter
 import unittest
-import _winreg as winreg
 import os
-import sys
 
 import udm
-from utilities import xme2mga
+from mgardf.utilities import xme2mga
 
 
 class ElementTypesTestSuite(unittest.TestCase):
