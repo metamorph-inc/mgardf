@@ -49,7 +49,7 @@ def main():
 
     g = MgaRdfConverter.convert(dn.root, udm_xml=path_udm_xml)
     with open(path_rootname + '.ttl', 'w') as ttl:
-        ttl.writelines(g.serialize(format='turtle'))
+        g.serialize(ttl, format='turtle')
 
     dn.close_no_update()
     meta_dn.close_no_update()
