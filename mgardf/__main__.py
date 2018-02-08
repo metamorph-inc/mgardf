@@ -1,6 +1,7 @@
 from mgardf.mgardfconverter import MgaRdfConverter
 from mgardf.utilities import xme2mga
 from os.path import exists, splitext
+import os
 from argparse import ArgumentParser
 from tempfile import mkstemp
 import udm
@@ -28,7 +29,8 @@ def main():
 
     if extension == '.xme':
         # Must convert to MGA first
-        path_mga = mkstemp(suffix='.mga')[1]
+        handle, path_mga = mkstemp(suffix='.mga')
+        os.close(handle)
         print ('creating a temporary MGA file at {}'.format(path_mga))
 
         xme2mga(path_project, path_mga)
