@@ -7,7 +7,6 @@ import udm
 
 
 def main():
-    print ('hi')
     parser = ArgumentParser(description='Extract TTL-formatted RDF from a GME project')
     parser.add_argument('project', type=str, nargs=1,
                         help='the path of the GME project (XME or MGA) from which to extract')
@@ -25,12 +24,12 @@ def main():
 
     # Is it an MGA or an RDF?
     path_rootname, extension = splitext(path_project)
-    print (path_rootname, extension)
+    # print (path_rootname, extension)
 
     if extension == '.xme':
         # Must convert to MGA first
-        path_mga = mkstemp(suffix='.mga')
-        print ('creating temporary MGA file at {}'.format(path_mga))
+        path_mga = mkstemp(suffix='.mga')[1]
+        print ('creating a temporary MGA file at {}'.format(path_mga))
 
         xme2mga(path_project, path_mga)
 
