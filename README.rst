@@ -10,6 +10,7 @@ It's still in the prototype stage, but functional enough to be used for some mod
 Installation
 ------------
 You can install this package using Python's **pip**:
+
 .. code-block::
 
    pip install git+git://github.com/metamorph-inc/mgardf.git
@@ -25,6 +26,7 @@ Example
 This example uses the `openmeta-vahana <https://github.com/metamorph-inc/openmeta-vahana>`_ project.
 
 From the **CyPhy_Model** directory, we'll run **mgardf**:
+
 .. code-block::
    
    >python -m mgardf openmeta-vahana.xme "C:\Program Files (x86)\META\meta\CyPhyML_udm.xml"
