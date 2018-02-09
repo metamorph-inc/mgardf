@@ -4,7 +4,7 @@ from mgardf.mgardfconverter import MgaRdfConverter
 import unittest
 import os
 import udm
-from utilities import xme2mga
+from mgardf.utilities import xme2mga
 
 
 class BasicTestSuite(unittest.TestCase):

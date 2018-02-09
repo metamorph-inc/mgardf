@@ -238,7 +238,7 @@ class MgaRdfConverter(object):
 
         # References
         if obj_type_name in self._reference_class_roles:
-            rolename = self._reference_class_roles[obj_type_name]
+            rolename = 'ref' # self._reference_class_roles[obj_type_name]
             referent = getattr(obj, rolename)
             uri_referent = self.build_obj_uri(referent.id)
 
