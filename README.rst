@@ -131,12 +131,12 @@ We can also do a bit of network analysis. Here, we ask: "Which blocks depend on 
    PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
    prefix model: <http://localhost/model/>
    prefix openmeta: <http://www.metamorphsoftware.com/openmeta/>
-   prefix network: <http://localhost/network/>
+   prefix : <http://localhost/network/>
 
    CONSTRUCT {
-     ?block_downstream network:DependsOn ?block_upstream .
-     ?block_upstream network:name ?block_upstream_name .
-     ?block_downstream network:name ?block_downstream_name .
+     ?block_downstream :DependsOn ?block_upstream .
+     ?block_upstream :Name ?block_upstream_name .
+     ?block_downstream :Name ?block_downstream_name .
    }
    WHERE {
      # First, get all pairs of blocks within the TiltWingPET
@@ -165,6 +165,7 @@ and the result:
 
 .. code-block:: Turtle
    
+   @prefix :      <http://localhost/network/> .
    @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
    @prefix xml:   <http://www.w3.org/XML/1998/namespace> .
    @prefix openmeta: <http://www.metamorphsoftware.com/openmeta/> .
@@ -172,69 +173,65 @@ and the result:
    @prefix model: <http://localhost/model/> .
    @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
    @prefix gme:   <https://forge.isis.vanderbilt.edu/gme/> .
-   @prefix network: <http://localhost/network/> .
 
-   model:id_100001094  network:DependsOn  model:id_100001082 , model:id_100001070 ;
-           network:name       "Constraint2" .
+   model:id_100001094  :DependsOn  model:id_100001082 , model:id_100001070 ;
+           :Name       "Constraint2" .
 
-   model:id_100001075  network:DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001070 , model:id_100001081 ;
-           network:name       "CanardMass" .
+   model:id_100001075  :DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001070 , model:id_100001081 ;
+           :Name       "CanardMass" .
 
-   model:id_100001084  network:name  "MaxTakeoffMassScaled" .
+   model:id_100001084  :Name  "MaxTakeoffMassScaled" .
 
-   model:id_100001093  network:DependsOn  model:id_100001074 , model:id_100001083 ;
-           network:name       "Constraint1" .
+   model:id_100001093  :DependsOn  model:id_100001074 , model:id_100001083 ;
+           :Name       "Constraint1" .
 
-   model:id_100001074  network:DependsOn  model:id_100001069 , model:id_100001070 , model:id_100001071 , model:id_100001081 ;
-           network:name       "ReserveMission" .
+   model:id_100001074  :DependsOn  model:id_100001069 , model:id_100001070 , model:id_100001071 , model:id_100001081 ;
+           :Name       "ReserveMission" .
 
-   model:id_100001083  network:name  "BatteryMassScaled" .
+   model:id_100001083  :Name  "BatteryMassScaled" .
 
-   model:id_100001098  network:DependsOn  model:id_100001070 , model:id_100001081 ;
-           network:name       "PropMass" .
+   model:id_100001098  :DependsOn  model:id_100001070 , model:id_100001081 ;
+           :Name       "PropMass" .
 
-   model:id_100001073  network:DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001070 , model:id_100001081 ;
-           network:name       "WingMass" .
+   model:id_100001073  :DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001070 , model:id_100001081 ;
+           :Name       "WingMass" .
 
-   model:id_100001079  network:DependsOn  model:id_100001069 , model:id_100001081 ;
-           network:name       "ToolingCost" .
+   model:id_100001079  :DependsOn  model:id_100001069 , model:id_100001081 ;
+           :Name       "ToolingCost" .
 
-   model:id_100001082  network:name  "MotorMassScaled" .
+   model:id_100001082  :Name  "MotorMassScaled" .
 
-   model:id_100001069  network:DependsOn  model:id_100001068 , model:id_100001081 ;
-           network:name       "CruisePower" .
+   model:id_100001069  :DependsOn  model:id_100001068 , model:id_100001081 ;
+           :Name       "CruisePower" .
 
-   model:id_100001072  network:DependsOn  model:id_100001069 , model:id_100001070 , model:id_100001081 ;
-           network:name       "SimpleMission" .
+   model:id_100001072  :DependsOn  model:id_100001069 , model:id_100001070 , model:id_100001081 ;
+           :Name       "SimpleMission" .
 
-   model:id_100001078  network:DependsOn  model:id_100001075 , model:id_100001083 , model:id_100001082 , model:id_100001077 , model:id_100001098 , model:id_100001076 , model:id_100001084 , model:id_100001073 , model:id_100001070 , model:id_100001081 ;
-           network:name       "ConfigWeight" .
+   model:id_100001078  :DependsOn  model:id_100001075 , model:id_100001083 , model:id_100001082 , model:id_100001077 , model:id_100001098 , model:id_100001076 , model:id_100001084 , model:id_100001073 , model:id_100001070 , model:id_100001081 ;
+           :Name       "ConfigWeight" .
 
-   model:id_100001081  network:name  "rPropScaled" .
+   model:id_100001081  :Name  "rPropScaled" .
 
-   model:id_100001068  network:DependsOn  model:id_100001084 ;
-           network:name       "MassToWeight" .
+   model:id_100001068  :DependsOn  model:id_100001084 ;
+           :Name       "MassToWeight" .
 
-   model:id_100001071  network:DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001081 ;
-           network:name       "LoiterPower" .
+   model:id_100001071  :DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001081 ;
+           :Name       "LoiterPower" .
 
-   model:id_100001077  network:DependsOn  model:id_100001068 , model:id_100001069 ;
-           network:name       "FuselageMass" .
+   model:id_100001077  :DependsOn  model:id_100001068 , model:id_100001069 ;
+           :Name       "FuselageMass" .
 
-   model:id_100001080  network:DependsOn  model:id_100001082 , model:id_100001078 , model:id_100001083 , model:id_100001079 , model:id_100001081 , model:id_100001072 ;
-           network:name       "OperatingCost" .
+   model:id_100001080  :DependsOn  model:id_100001082 , model:id_100001078 , model:id_100001083 , model:id_100001079 , model:id_100001081 , model:id_100001072 ;
+           :Name       "OperatingCost" .
 
-   model:id_100001067  network:DependsOn  model:id_100001080 ;
-           network:name       "CalculateDOCPerKm" .
+   model:id_100001067  :DependsOn  model:id_100001080 ;
+           :Name       "CalculateDOCPerKm" .
 
-   model:id_100001095  network:DependsOn  model:id_100001078 , model:id_100001084 ;
-           network:name       "Constraint3" .
+   model:id_100001095  :DependsOn  model:id_100001078 , model:id_100001084 ;
+           :Name       "Constraint3" .
 
-   model:id_100001070  network:DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001081 ;
-           network:name       "HoverPower" .
+   model:id_100001070  :DependsOn  model:id_100001068 , model:id_100001069 , model:id_100001081 ;
+           :Name       "HoverPower" .
 
-   model:id_100001076  network:DependsOn  model:id_100001069 , model:id_100001070 , model:id_100001081 ;
-           network:name       "WireMass" .
-
-
-
+   model:id_100001076  :DependsOn  model:id_100001069 , model:id_100001070 , model:id_100001081 ;
+           :Name       "WireMass" .
