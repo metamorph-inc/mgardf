@@ -13,7 +13,7 @@ You can install this package using Python's **pip**:
 
 .. code-block::
 
-   pip install git+git://github.com/metamorph-inc/mgardf.git
+   python -m pip install git+git://github.com/metamorph-inc/mgardf.git
 
 Usage
 -----
