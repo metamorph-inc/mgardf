@@ -124,3 +124,86 @@ and partial result:
    
    (snip)
    
+We can also do a bit of network analysis. Here, we ask: "Which blocks depend on outputs from other blocks?" This query will capture the immediately-adjacent upstream and downstream analysis blocks in the TiltWing PET.
+
+.. code-block:: SPARQL
+
+   PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
+   prefix model: <http://localhost/model/>
+   prefix openmeta: <http://www.metamorphsoftware.com/openmeta/>
+   prefix network: <http://localhost/network/>
+
+   CONSTRUCT {
+     ?block_downstream_name network:DependsOn ?block_upstream_name
+   }
+   WHERE {
+     # First, get all pairs of blocks within the TiltWingPET
+     ?pet a openmeta:ParametricExploration .
+     ?pet openmeta:name "TiltWingPET" .
+     ?block_upstream gme:parent+ ?pet .
+     ?block_downstream gme:parent+ ?pet .
+
+     # Look for cases where a port of Upstream Block 
+     #    is connected to a port of Downstream Block
+     ?connection openmeta:srcResultFlow ?block_upstream_port .
+     ?connection openmeta:dstResultFlow ?block_downstream_port .
+
+     # Get ports from Upstream Block
+     ?block_upstream a openmeta:PythonWrapper .
+     ?block_upstream_port gme:parent ?block_upstream .
+     ?block_upstream openmeta:name ?block_upstream_name .
+
+     # Get ports from Downstream Block
+     ?block_downstream a openmeta:PythonWrapper .
+     ?block_downstream_port gme:parent ?block_downstream .
+     ?block_downstream openmeta:name ?block_downstream_name .
+   }
+   
+and the result:
+
+.. code-block:: Turtle
+   
+   @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+   @prefix xml:   <http://www.w3.org/XML/1998/namespace> .
+   @prefix openmeta: <http://www.metamorphsoftware.com/openmeta/> .
+   @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+   @prefix model: <http://localhost/model/> .
+   @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+   @prefix gme:   <https://forge.isis.vanderbilt.edu/gme/> .
+   @prefix network: <http://localhost/network/> .
+
+   "PropMass"  network:DependsOn  "HoverPower" , "rPropScaled" .
+
+   "OperatingCost"  network:DependsOn  "MotorMassScaled" , "ConfigWeight" , "BatteryMassScaled" , "ToolingCost" , "rPropScaled" , "SimpleMission" .
+
+   "WingMass"  network:DependsOn  "MassToWeight" , "CruisePower" , "HoverPower" , "rPropScaled" .
+
+   "CalculateDOCPerKm"  network:DependsOn  "OperatingCost" .
+
+   "Constraint2"  network:DependsOn  "MotorMassScaled" , "HoverPower" .
+
+   "WireMass"  network:DependsOn  "CruisePower" , "HoverPower" , "rPropScaled" .
+
+   "CruisePower"  network:DependsOn  "MassToWeight" , "rPropScaled" .
+
+   "ToolingCost"  network:DependsOn  "CruisePower" , "rPropScaled" .
+
+   "SimpleMission"  network:DependsOn  "CruisePower" , "HoverPower" , "rPropScaled" .
+
+   "LoiterPower"  network:DependsOn  "MassToWeight" , "CruisePower" , "rPropScaled" .
+
+   "MassToWeight"  network:DependsOn  "MaxTakeoffMassScaled" .
+
+   "Constraint1"  network:DependsOn  "ReserveMission" , "BatteryMassScaled" .
+
+   "FuselageMass"  network:DependsOn  "MassToWeight" , "CruisePower" .
+
+   "ReserveMission"  network:DependsOn  "CruisePower" , "HoverPower" , "LoiterPower" , "rPropScaled" .
+
+   "CanardMass"  network:DependsOn  "MassToWeight" , "CruisePower" , "HoverPower" , "rPropScaled" .
+
+   "Constraint3"  network:DependsOn  "ConfigWeight" , "MaxTakeoffMassScaled" .
+
+   "HoverPower"  network:DependsOn  "MassToWeight" , "CruisePower" , "rPropScaled" .
+
+   "ConfigWeight"  network:DependsOn  "FuselageMass" , "PropMass" , "CanardMass" , "WingMass" , "WireMass" , "MaxTakeoffMassScaled" , "rPropScaled" , "MotorMassScaled" , "HoverPower" , "BatteryMassScaled" .
