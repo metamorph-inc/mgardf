@@ -1,7 +1,8 @@
 from rdflib import Graph, Namespace, RDF, RDFS, Literal
 import xml.etree.ElementTree as ET
-import _winreg as winreg
 import os
+import os.path
+import uuid
 import sys
 import udm
 
@@ -44,6 +45,7 @@ class memoized(object):
 class MgaRdfConverter(object):
     def __init__(self, udm_xml=None):
         self.g = Graph()
+        self.g_project = None
 
         self.NS_GME = Namespace('https://forge.isis.vanderbilt.edu/gme/')
         self.NS_METAMODEL = Namespace('http://www.metamorphsoftware.com/openmeta/')
@@ -136,7 +138,7 @@ class MgaRdfConverter(object):
 
                 CONSTRUCT {?subclass gme:hasAttribute ?attribute}
                 WHERE {
-                    ?class a gme:class . 
+                    ?class a gme:class .
                     ?class gme:hasAttribute ?attribute .
                     ?subclass  gme:baseType ?class
                 }"""
@@ -162,8 +164,20 @@ class MgaRdfConverter(object):
             self._class_attributes[name_class].add(name_attr)
 
     @staticmethod
-    def convert(fco, udm_xml=None):
+    def convert(fco, udm_xml=None, original_filename=None):
         v = MgaRdfConverter(udm_xml=udm_xml)
+        project = fco.convert_udm2gme().Project
+        if original_filename:
+            v.g_project = g_project = v.NS_MODEL[os.path.basename(original_filename)]
+            v.g.add((g_project, RDF.type, v.NS_GME['project']))
+            v.g.add((g_project, v.NS_GME['filename'], Literal(original_filename)))
+            for attrib in ('MetaName', 'MetaGUID', 'MetaVersion', 'GUID', 'CreateTime', 'Name'):
+                value = getattr(project, attrib)
+                # if 'GUID' in attrib:
+                if isinstance(value, buffer):
+                    value = str(uuid.UUID(bytes_le=value))
+                v.g.add((g_project, v.NS_GME[attrib], Literal(value)))
+
         v.visit(fco)
         return v.g
 
@@ -203,6 +217,8 @@ class MgaRdfConverter(object):
         uri_type = self.build_type_uri(obj_type_name)
 
         self.g.add((uri_obj, RDF.type, uri_type))
+        if self.g_project:
+            self.g.add((uri_obj, self.NS_GME['memberOf'], self.g_project))
 
         ancestor_chain = list([a.name for a in self.ancestors(obj)])
         ancestor_chain.reverse()

@@ -48,7 +48,7 @@ def main():
     dn = udm.SmartDataNetwork(meta_dn.root)
     dn.open(path_mga, b'')
 
-    g = MgaRdfConverter.convert(dn.root, udm_xml=path_udm_xml)
+    g = MgaRdfConverter.convert(dn.root, original_filename=path_project, udm_xml=path_udm_xml)
     with open(path_rootname + '.ttl', 'w') as ttl:
         g.serialize(ttl, format='turtle')
 
