@@ -179,6 +179,9 @@ class MgaRdfConverter(object):
                 v.g.add((g_project, v.NS_GME[attrib], Literal(value)))
 
         v.visit(fco)
+        if original_filename:
+            v.g.add((g_project, v.NS_GME.hasRootFolder, v.build_obj_uri(fco.id)))
+
         return v.g
 
     @memoized
@@ -217,6 +220,7 @@ class MgaRdfConverter(object):
         uri_type = self.build_type_uri(obj_type_name)
 
         self.g.add((uri_obj, RDF.type, uri_type))
+        self.g.add((uri_obj, self.NS_GME.GUID, Literal(obj.convert_udm2gme().GetGuidDisp())))
         if self.g_project:
             self.g.add((uri_obj, self.NS_GME['memberOf'], self.g_project))
 
@@ -254,7 +258,7 @@ class MgaRdfConverter(object):
 
         # References
         if obj_type_name in self._reference_class_roles:
-            rolename = 'ref' # self._reference_class_roles[obj_type_name]
+            rolename = 'ref'  # self._reference_class_roles[obj_type_name]
             referent = getattr(obj, rolename)
             uri_referent = self.build_obj_uri(referent.id)
 
