@@ -11,9 +11,11 @@ install:
 
 build_script:
   - '.\venv\Scripts\python setup.py bdist_wheel'
+  - 'move /y dist\*.whl .'
 
 artifacts:
-  - path: 'dist\*.whl'
+  - path: '*.whl'
+    name: whl
   - path: 'nosetests.xml'
 
 test_script:
@@ -22,3 +24,15 @@ test_script:
 after_test:
   - ps: echo $($env:APPVEYOR_JOB_ID)
   - ps: $wc = New-Object 'System.Net.WebClient'; $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\nosetests.xml))
+
+deploy:
+  provider: S3
+  access_key_id: AKIAJGT5KWMEHZXGWBNA
+  secret_access_key:
+    secure: zZK/Dn7E+y4zNRG3m30iX0TbasNzoUlXUsgSovP954AeMCLtUtO1eC6zltNrp7Vq
+  bucket: pypi.metamorphsoftware.com
+  region: us-east-1
+  artifact: whl
+  folder: mgardf
+  on:
+    appveyor_repo_tag: true        # deploy on tag push only
