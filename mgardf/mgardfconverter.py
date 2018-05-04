@@ -167,8 +167,10 @@ class MgaRdfConverter(object):
     def convert(fco, udm_xml=None, original_filename=None):
         v = MgaRdfConverter(udm_xml=udm_xml)
         project = fco.convert_udm2gme().Project
+        v.project_guid = str(uuid.UUID(bytes_le=project.GUID))
+
         if original_filename:
-            v.g_project = g_project = v.NS_MODEL[os.path.basename(original_filename)]
+            v.g_project = g_project = v.NS_MODEL[v.project_guid + '_' + os.path.basename(original_filename)]
             v.g.add((g_project, RDF.type, v.NS_GME['project']))
             v.g.add((g_project, v.NS_GME['filename'], Literal(original_filename)))
             for attrib in ('MetaName', 'MetaGUID', 'MetaVersion', 'GUID', 'CreateTime', 'Name'):
@@ -186,7 +188,7 @@ class MgaRdfConverter(object):
 
     @memoized
     def build_obj_uri(self, obj_id):
-        return self.NS_MODEL['id_' + str(obj_id)]
+        return self.NS_MODEL[self.project_guid + 'id_' + str(obj_id)]
 
     @memoized
     def build_type_uri(self, type_name):
