@@ -5,9 +5,39 @@ import os.path
 import uuid
 import sys
 import udm
+import xml.sax
+import xml.sax.handler
 
 import collections
 import functools
+
+
+def get_xme_attrs(xme_file):
+    class StopProcessing(Exception):
+        pass
+
+    class XmeHandler(xml.sax.handler.ContentHandler):
+        def __init__(self):
+            xml.sax.handler.ContentHandler.__init__(self)
+            self.defines = {}
+
+        def processingInstruction(self, target, data):
+            pass
+
+        def startElement(self, name, attrs):
+            self.attrs = dict(attrs)
+            raise StopProcessing()
+
+    handler = XmeHandler()
+    parser = xml.sax.make_parser()
+    parser.setContentHandler(handler)
+    parser.setFeature(xml.sax.handler.feature_external_ges, False)
+    parser.setFeature(xml.sax.handler.feature_external_pes, False)
+    try:
+        parser.parse(xme_file)
+    except StopProcessing:
+        pass
+    return handler.attrs
 
 
 # Memoize taken from https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize
@@ -173,7 +203,20 @@ class MgaRdfConverter(object):
             v.g_project = g_project = v.NS_MODEL[v.project_guid + '_' + os.path.basename(original_filename)]
             v.g.add((g_project, RDF.type, v.NS_GME['project']))
             v.g.add((g_project, v.NS_GME['filename'], Literal(original_filename)))
-            for attrib in ('MetaName', 'MetaGUID', 'MetaVersion', 'GUID', 'CreateTime', 'Name'):
+            attribs = ('MetaName', 'MetaGUID', 'MetaVersion', 'GUID', 'CreateTime', 'Name', 'Version', 'Author')
+            if os.path.splitext(original_filename)[1] == '.xme':
+                # parser doesn't tell us the GUID of the project
+                # parser = Dispatch("Mga.MgaParser")
+                xme_attrs = get_xme_attrs(original_filename)
+                # {u'mdate': u'Thu Mar 29 14:48:10 2018', u'metaname': u'CyPhyML', u'cdate': u'Thu Mar 29 14:48:10 2018',
+                # u'version': u'', u'metaversion': u'$Rev: 29960 $', u'guid': u'{CF9E741B-9301-4BCD-BBB2-DED2A638E1E8}',
+                # u'metaguid': u'{1441E17B-C9DE-0EB6-10F3-A6672D29CB46}'}
+                v.g.add((g_project, v.NS_GME['MetaGUID'], Literal(str(uuid.UUID(xme_attrs['metaguid'])))))
+                v.g.add((g_project, v.NS_GME['MetaVersion'], Literal(xme_attrs['metaversion'])))
+                v.g.add((g_project, v.NS_GME['GUID'], Literal(str(uuid.UUID(xme_attrs['guid'])))))
+                # not reliable through xme->mga->xme roundtrip: xme_attrs['cdate']
+                attribs = set(attribs) - {'MetaGUID', 'MetaVersion', 'GUID'}
+            for attrib in attribs:
                 value = getattr(project, attrib)
                 # if 'GUID' in attrib:
                 if isinstance(value, buffer):
