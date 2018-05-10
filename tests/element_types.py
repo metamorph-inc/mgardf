@@ -12,7 +12,6 @@ from mgardf.utilities import xme2mga
 class ElementTypesTestSuite(unittest.TestCase):
     """Test cases for each MetaGME type."""
 
-    PATH_GME = r'C:\Program Files (x86)\GME'
     PATH_XME = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                             r'models\generic_language\gl_test_model.xme')
     PATH_MGA = os.path.join(os.path.abspath(os.path.dirname(__file__)),
@@ -66,7 +65,7 @@ class ElementTypesTestSuite(unittest.TestCase):
                 ?ref a gl:Reference .
                 ?ref gme:parent ?parent .
                 ?parent gme:name "RootModel" .
-                
+
                 ?ref gme:references ?referent .
                 ?referent gme:name "Atom"
             }
@@ -87,7 +86,7 @@ class ElementTypesTestSuite(unittest.TestCase):
                 ?ref a gl:Reference .
                 ?conn a gl:ConnectionForRefOnly .
                 ?refB a gl:Reference .
-                
+
                 ?conn gl:srcConnectionForRefOnly ?ref .
                 ?conn gl:dstConnectionForRefOnly ?refB
             }

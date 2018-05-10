@@ -6,7 +6,6 @@ import sys
 import time
 import udm
 
-PATH_GME = r'C:\Program Files (x86)\GME'
 # PATH_MGA = r'C:\Users\Adam\repo\tto-robotics\centipede\TASCK_Centipede.mga'
 # PATH_UDM_XML = r'C:\Users\Adam\repo\tonka\generated\CyPhyML\models\CyPhyML_udm.xml'
 PATH_MGA = os.path.join(os.path.abspath(os.path.dirname(__file__)), r'models\sf.mga')

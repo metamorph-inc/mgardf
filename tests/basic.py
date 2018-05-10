@@ -10,7 +10,6 @@ from mgardf.utilities import xme2mga
 class BasicTestSuite(unittest.TestCase):
     """Basic test cases."""
 
-    PATH_GME = r'C:\Program Files (x86)\GME'
     PATH_MGA = os.path.join(os.path.abspath(os.path.dirname(__file__)), r'models\sf.mga')
     PATH_XME = os.path.join(os.path.abspath(os.path.dirname(__file__)), r'models\sf.xme')
     PATH_UDM_XML = os.path.join(os.path.abspath(os.path.dirname(__file__)), r'models\SF.xml')
@@ -32,7 +31,7 @@ class BasicTestSuite(unittest.TestCase):
         dn.open(cls.PATH_MGA.encode("utf-8"), b"")
         cls.dn = dn
 
-        cls.g = MgaRdfConverter.convert(dn.root, udm_xml=cls.PATH_UDM_XML)
+        cls.g = MgaRdfConverter.convert(dn.root, udm_xml=cls.PATH_UDM_XML, original_filename=cls.PATH_XME)
 
         print(cls.g.serialize(format='turtle'))
 
@@ -50,7 +49,7 @@ class BasicTestSuite(unittest.TestCase):
         sparql_root_primitive = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?prim_name
             WHERE {
                 ?rf a sf:RootFolder .
@@ -70,7 +69,7 @@ class BasicTestSuite(unittest.TestCase):
         sparql_all_primitives = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?prim_name
             WHERE {
                 ?prim a sf:Primitive .
@@ -87,7 +86,7 @@ class BasicTestSuite(unittest.TestCase):
         sparql_compound_instance = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?comp
             WHERE {
                 ?comp a sf:Compound .
@@ -105,12 +104,12 @@ class BasicTestSuite(unittest.TestCase):
         sparql_all_descendants = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?comp_descendant
             WHERE {
                 ?comp a sf:Compound .
                 ?comp sf:name "Compound_Instance" .
-                
+
                 ?comp_descendant gme:parent+ ?comp .
                 ?comp_descendant a gme:instance .
                 ?comp_descendant gme:archetype ?comp_desc_archetype
@@ -124,7 +123,7 @@ class BasicTestSuite(unittest.TestCase):
         sparql_compound_instance = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?comp
             WHERE {
                 ?comp a sf:Compound .
@@ -142,12 +141,12 @@ class BasicTestSuite(unittest.TestCase):
         sparql_all_descendants = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?comp_descendant
             WHERE {
                 ?comp a sf:Compound .
                 ?comp sf:name "Compound_Subtype" .
-                
+
                 ?comp_descendant gme:parent+ ?comp .
                 ?comp_descendant a gme:subtype .
                 ?comp_descendant gme:archetype ?comp_desc_archetype
@@ -161,7 +160,7 @@ class BasicTestSuite(unittest.TestCase):
         sparql_new_descendant = """
             PREFIX gme: <https://forge.isis.vanderbilt.edu/gme/>
             PREFIX sf: <http://www.metamorphsoftware.com/openmeta/>
-            
+
             SELECT ?comp_descendant
             WHERE {
                 ?comp_descendant gme:name "Primitive_NotSubtype" .
