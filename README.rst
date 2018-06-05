@@ -1,7 +1,8 @@
 mgardf
 ======
-.. image:: https://ci.appveyor.com/api/projects/status/github/metamorph-inc/mgardf?svg=true
-   :target: https://ci.appveyor.com/project/adamnagel/mgardf
+
+.. image:: https://ci.appveyor.com/api/projects/status/7vveh0y0f6qk4e4h?svg=true
+   :target: https://ci.appveyor.com/project/Metamorph/mgardf
 
 This is a library for converting GME MGA files to RDF. By default it translates only the specified project. If given access to the UDM XML, it can export an RDF version of the language (meta-model) as well.
 
