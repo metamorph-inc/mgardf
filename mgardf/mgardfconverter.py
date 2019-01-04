@@ -283,8 +283,8 @@ class MgaRdfConverter(object):
             self.g.add((uri_obj, self.URI_ARCHETYPE, arch_uri))
 
         if obj_type_name in self._assoc_class_names:
-            src_attr = getattr(obj, 'src' + obj_type_name)
-            dst_attr = getattr(obj, 'dst' + obj_type_name)
+            src_attr = getattr(obj, obj.type.association.children()[0].name)
+            dst_attr = getattr(obj, obj.type.association.children()[1].name)
 
             src_uri = self.build_obj_uri(src_attr.id)
             dst_uri = self.build_obj_uri(dst_attr.id)
